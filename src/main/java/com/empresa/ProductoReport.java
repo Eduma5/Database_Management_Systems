@@ -1,21 +1,24 @@
 package com.empresa;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.sql.Statement;
 
 public class ProductoReport {
 
     public void printAllProductos() {
-        ProductoDAO productoDAO = new ProductoDAO();
-        try {
-            List<Producto> productos = productoDAO.getAllProductos();
-            for (Producto producto : productos) {
-                System.out.println("ID: " + producto.getIdProducto());
-                System.out.println("Nombre: " + producto.getNombre());
-                System.out.println("Precio: " + producto.getPrecio());
-                System.out.println("Stock: " + producto.getStock());
-                System.out.println("Descripción: " + producto.getDescripcion());
-                System.out.println("----------------------------");
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM Producto")) {
+
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("idProducto"));
+                System.out.println("Nombre: " + rs.getString("nombre"));
+                System.out.println("Precio: " + rs.getDouble("precio"));
+                System.out.println("Stock: " + rs.getInt("stock"));
+                System.out.println("Descripción: " + rs.getString("descripcion"));
+                System.out.println("---------------------------");
             }
         } catch (SQLException e) {
             e.printStackTrace();

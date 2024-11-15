@@ -1,24 +1,24 @@
 package com.empresa;
 
-import com.empresa.ClienteDAO;
-import com.empresa.Cliente;
-
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.sql.Statement;
 
 public class ClienteReport {
 
     public void printAllClientes() {
-        ClienteDAO clienteDAO = new ClienteDAO();
-        try {
-            List<Cliente> clientes = clienteDAO.getAllClientes();
-            for (Cliente cliente : clientes) {
-                System.out.println("ID: " + cliente.getIdCliente());
-                System.out.println("Nombre: " + cliente.getNombre());
-                System.out.println("Direccion: " + cliente.getDireccion());
-                System.out.println("Telefono: " + cliente.getTelefono());
-                System.out.println("Email: " + cliente.getEmail());
-                System.out.println("----------------------------");
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM Cliente")) {
+
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("idCliente"));
+                System.out.println("Nombre: " + rs.getString("nombre"));
+                System.out.println("Dirección: " + rs.getString("direccion"));
+                System.out.println("Teléfono: " + rs.getString("telefono"));
+                System.out.println("Email: " + rs.getString("email"));
+                System.out.println("---------------------------");
             }
         } catch (SQLException e) {
             e.printStackTrace();

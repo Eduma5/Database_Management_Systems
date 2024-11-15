@@ -19,7 +19,8 @@ public class Main {
             System.out.println("4. Consultar productos");
             System.out.println("5. Eliminar cliente");
             System.out.println("6. Eliminar producto");
-            System.out.println("7. Salir");
+            System.out.println("7. Reportar");
+            System.out.println("8. Salir");
             int opcion = scanner.nextInt();
             scanner.nextLine(); // Consumir la nueva línea
 
@@ -102,6 +103,26 @@ public class Main {
                     break;
 
                 case 7:
+                    // Reportar
+                    System.out.println("Seleccione el tipo de reporte:");
+                    System.out.println("1. Reporte de clientes");
+                    System.out.println("2. Reporte de productos");
+                    int reporteOpcion = scanner.nextInt();
+                    scanner.nextLine(); // Consumir la nueva línea
+
+                    switch (reporteOpcion) {
+                        case 1:
+                            clienteReport.printAllClientes();
+                            break;
+                        case 2:
+                            productoReport.printAllProductos();
+                            break;
+                        default:
+                            System.out.println("Opción de reporte no válida.");
+                    }
+                    break;
+
+                case 8:
                     // Salir
                     System.out.println("Saliendo...");
                     scanner.close();
